@@ -40,7 +40,11 @@ spring:
           uri: http://localhost:8005
           predicates:
             - Path=/oficinaRRHH/**        
-        - id: sueldo-service
-          uri: http://localhost:8006
+        - id: planila-service
+          uri: http://localhost:8585
           predicates:
-            - Path=/sueldo/**                    
+            - Path=/planilla/**
+        - id: planila-service
+          uri: http://localhost:8585
+          predicates:
+            - Path=/empleado/** 
