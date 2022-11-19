@@ -23,7 +23,11 @@ spring:
         - id: importar-service
           uri: http://localhost:8484
           predicates:
-            - Path=/datareloj/**
+            - Path=/asistencia/**
+        - id: importar-service
+          uri: http://localhost:8484
+          predicates:
+            - Path=/upload/**
         - id: empleado-service
           uri: http://localhost:8002
           predicates:
