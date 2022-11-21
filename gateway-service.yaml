@@ -1,22 +1,13 @@
 server:
-  port: 8080 #le puse 8082 pq el 8080 está en jenkins
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      default-zone: http://localhost:8761/eureka
-  instance:
-    hostname: localhost
+  port: 8082 #le puse 8082 pq el 8080 está en jenkins
 spring:
-  cloud:
-    security:
-      oauth2:
-        client:
-          provider:
-            oauth2:
-              keycloak:
-                issuer-uri: http://localhost:9191/realms/tingeso
+  security:
+    oauth2:
+      client:
+        provider:
+          oauth2:
+            keycloak:
+              issuer-uri: http://localhost:9191/realms/tingeso
         registration:
           spring-cloud-gateway-client:
             client-id: spring-cloud-gateway-client
@@ -24,41 +15,43 @@ spring:
             provider: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/spring-cloud-gateway-client
-  gateway:
-    default-filters: TokenRelay
-    discovery:
-      locator:
-        enabled: true
-    routes:
-      - id: autorizacion-service
-        uri: http://localhost:8181
-        predicates:
-          - Path=/autorizacion/**
-      - id: importar-service
-        uri: http://localhost:8484
-        predicates:
-          - Path=/asistencia/**
-      - id: importar-service
-        uri: http://localhost:8484
-        predicates:
-          - Path=/upload/**
-      - id: empleado-service
-        uri: http://localhost:8002
-        predicates:
-          - Path=/empleado/**
-      - id: justificativo-service
-        uri: http://localhost:8282
-        predicates:
-          - Path=/justificativo/** 
-      - id: oficinaRRHH-service
-        uri: http://localhost:8005
-        predicates:
-          - Path=/oficinaRRHH/**        
-      - id: planila-service
-        uri: http://localhost:8585
-        predicates:
-          - Path=/planilla/**
-      - id: planila-service
-        uri: http://localhost:8585
-        predicates:
-          - Path=/empleado/**
+  application: 
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters: TokenRelay
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: autorizacion-service
+          uri: lb://autorizacion-service
+          predicates:
+            - Path=/autorizacion/**
+            
+        - id: importar-service
+          uri: lb://importar-service
+          predicates:
+            - Path=/asistencia/**
+
+        - id: justificativo-service
+          uri: lb://justificativo-service
+          predicates:
+            - Path=/justificativo/** 
+            
+             
+        - id: planilla-service
+          uri: lb://planilla-service
+          predicates:
+            - Path=/planilla/**  
+            
+        - id: planilla-service
+          uri: lb://planilla-service
+          predicates:
+            - Path=/empleado/**  
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://localhost:8761/eureka}
