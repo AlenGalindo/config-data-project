@@ -8,10 +8,23 @@ eureka:
       default-zone: http://localhost:8761/eureka
   instance:
     hostname: localhost
-
 spring:
-  cloud:
+  security:
+    oauth2:
+      client:
+        provider:
+          oauth2:
+            keycloak:
+              issuer-uri: http://localhost:9191/realms/tingeso
+        registration:
+          spring-cloud-gateway-client:
+            client-id: spring-cloud-gateway-client
+            client-secret: s6YgMKJGKI2konHCtrQxAQyAnv3LyuZ8
+            provider: keycloak
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/spring-cloud-gateway-client
     gateway:
+      default-filters: TokenRelay
       discovery:
         locator:
           enabled: true
@@ -47,4 +60,4 @@ spring:
         - id: planila-service
           uri: http://localhost:8585
           predicates:
-            - Path=/empleado/** 
+            - Path=/empleado/**
