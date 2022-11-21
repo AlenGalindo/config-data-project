@@ -27,6 +27,10 @@ spring:
           uri: lb://importar-service
           predicates:
             - Path=/asistencia/**
+        - id: importar-service
+          uri: lb://importar-service
+          predicates:
+            - Path=/upload/**
 
         - id: justificativo-service
           uri: lb://justificativo-service
