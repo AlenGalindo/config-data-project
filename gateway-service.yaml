@@ -9,13 +9,14 @@ eureka:
   instance:
     hostname: localhost
 spring:
-  security:
-    oauth2:
-      client:
-        provider:
-          oauth2:
-            keycloak:
-              issuer-uri: http://localhost:9191/realms/tingeso
+  cloud:
+    security:
+      oauth2:
+        client:
+          provider:
+            oauth2:
+              keycloak:
+                issuer-uri: http://localhost:9191/realms/tingeso
         registration:
           spring-cloud-gateway-client:
             client-id: spring-cloud-gateway-client
@@ -23,41 +24,41 @@ spring:
             provider: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8080/login/oauth2/code/spring-cloud-gateway-client
-    gateway:
-      default-filters: TokenRelay
-      discovery:
-        locator:
-          enabled: true
-      routes:
-        - id: autorizacion-service
-          uri: http://localhost:8181
-          predicates:
-            - Path=/autorizacion/**
-        - id: importar-service
-          uri: http://localhost:8484
-          predicates:
-            - Path=/asistencia/**
-        - id: importar-service
-          uri: http://localhost:8484
-          predicates:
-            - Path=/upload/**
-        - id: empleado-service
-          uri: http://localhost:8002
-          predicates:
-            - Path=/empleado/**
-        - id: justificativo-service
-          uri: http://localhost:8282
-          predicates:
-            - Path=/justificativo/** 
-        - id: oficinaRRHH-service
-          uri: http://localhost:8005
-          predicates:
-            - Path=/oficinaRRHH/**        
-        - id: planila-service
-          uri: http://localhost:8585
-          predicates:
-            - Path=/planilla/**
-        - id: planila-service
-          uri: http://localhost:8585
-          predicates:
-            - Path=/empleado/**
+  gateway:
+    default-filters: TokenRelay
+    discovery:
+      locator:
+        enabled: true
+    routes:
+      - id: autorizacion-service
+        uri: http://localhost:8181
+        predicates:
+          - Path=/autorizacion/**
+      - id: importar-service
+        uri: http://localhost:8484
+        predicates:
+          - Path=/asistencia/**
+      - id: importar-service
+        uri: http://localhost:8484
+        predicates:
+          - Path=/upload/**
+      - id: empleado-service
+        uri: http://localhost:8002
+        predicates:
+          - Path=/empleado/**
+      - id: justificativo-service
+        uri: http://localhost:8282
+        predicates:
+          - Path=/justificativo/** 
+      - id: oficinaRRHH-service
+        uri: http://localhost:8005
+        predicates:
+          - Path=/oficinaRRHH/**        
+      - id: planila-service
+        uri: http://localhost:8585
+        predicates:
+          - Path=/planilla/**
+      - id: planila-service
+        uri: http://localhost:8585
+        predicates:
+          - Path=/empleado/**
