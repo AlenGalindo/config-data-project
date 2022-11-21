@@ -1,5 +1,5 @@
 server:
-  port: 8082 #le puse 8082 pq el 8080 está en jenkins
+  port: 8080
 spring:
   application: 
     name: gateway-service
